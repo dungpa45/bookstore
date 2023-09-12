@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: web-football
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: web-football
+
+  template:
+    metadata:
+      labels:
+        app: web-football
+    spec:
+      containers:
+      - name: web-football
+        image: dung4597/app-football:2024
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-football
+spec:
+  selector:
+    app: web-football
+  ports:
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+  type: LoadBalancer
